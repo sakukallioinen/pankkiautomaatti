@@ -1,7 +1,6 @@
 const express=require('express');
 const router = express.Router()
 const card=require('../models/card_model');
-const { response } = require('../app');
 
 
 router.get('/',function(request, response){
@@ -27,4 +26,27 @@ router.post('/',function(request, response){
     });
 });
 
-module.exports=router
+router.delete('/:id', 
+function(request, response) {
+  card.delete(request.params.id, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
+
+
+router.put('/:id', 
+function(request, response) {
+  card.update(request.params.id, request.body, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
+
+module.exports=router;

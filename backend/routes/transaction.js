@@ -1,11 +1,10 @@
 const express=require('express');
 const router = express.Router()
-const card=require('../models/card_model');
-const { response } = require('../app');
+const transaction=require('../models/transaction');
 
 
 router.get('/',function(request, response){
-    card.getAll(function(err,result){
+    transaction.getAll(function(err,result){
     if(err){
         response.send(err);
     }
@@ -17,7 +16,7 @@ router.get('/',function(request, response){
 });
 
 router.post('/',function(request, response){
-    card.add( request.body, function(err, result){
+    transaction.add( request.body, function(err, result){
         if(err){
             response.send(err);
         }
@@ -25,6 +24,29 @@ router.post('/',function(request, response){
             response.json(result);
         }
     });
+});
+
+router.delete('/:id', 
+function(request, response) {
+  transaction.delete(request.params.id, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
+
+
+router.put('/:id', 
+function(request, response) {
+  transaction.update(request.params.id, request.body, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
 });
 
 module.exports=router

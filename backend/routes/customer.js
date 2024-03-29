@@ -25,4 +25,27 @@ router.post('/',function(request, response){
     });
 });
 
+
+router.delete('/:id', 
+function(request, response) {
+  customer.delete(request.params.id, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
+
+
+router.put('/:id', 
+function(request, response) {
+  customer.update(request.params.id, request.body, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(dbResult);
+    }
+  });
+});
 module.exports=router
