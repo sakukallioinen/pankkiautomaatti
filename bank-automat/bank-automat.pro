@@ -30,3 +30,8 @@ win32: LIBS += -L$$PWD/../PinDLL/build/build/debug/ -lPinDLL
 
 INCLUDEPATH += $$PWD/../PinDLL
 DEPENDPATH += $$PWD/../PinDLL
+
+win32: LIBS += -L$$PWD/PinDLL/build/build/debug/ -lPinDLL
+
+INCLUDEPATH += $$PWD/PinDLL
+DEPENDPATH += $$PWD/PinDLL
