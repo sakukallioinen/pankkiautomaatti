@@ -1,5 +1,5 @@
 backend/node_modules/
 bank-automat/build/
 bank-automat/*.user
-PinDLL/build/
-PinDLL/*.user
+bank-automat/PinDLL/build/
+bank-automat/PinDLL/*.user
