@@ -1,6 +1,6 @@
 const express=require('express');
 const router = express.Router()
-const transaction=require('../models/transaction');
+const transaction=require('../models/transaction_model');
 
 
 router.get('/',function(request, response){

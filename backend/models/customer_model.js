@@ -19,8 +19,8 @@ const customer = {
     },
     update: function(id, customer, callback) {
       return db.query(
-        'update customer set idCustomer=?, fname=?,lname=? where idCustomer=?',
-        [customer.fname, customer.lname, customer.idCustomer],
+        'update customer set fname=?, lname=? where idCustomer=?',
+        [customer.fname, customer.lname, id],
         callback
       );
     }
