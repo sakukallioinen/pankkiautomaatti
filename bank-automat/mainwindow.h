@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "pininterface.h"
+#include "paasivu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,7 +19,18 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_pushButtonCardReader_clicked();
+    void clickHandler();
+    void pinHandler(QString);
+
+signals:
+    void pinSignal();
+
 private:
     Ui::MainWindow *ui;
+    PinInterface *pinInterface;
+    int cardNumber = 258751;
+    short cardPin = 1234;
 };
 #endif // MAINWINDOW_H

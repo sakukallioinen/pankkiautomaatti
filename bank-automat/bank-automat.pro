@@ -10,15 +10,23 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    paasivu.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    paasivu.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    paasivu.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32: LIBS += -L$$PWD/../PinDLL/build/build/debug/ -lPinDLL
+
+INCLUDEPATH += $$PWD/../PinDLL
+DEPENDPATH += $$PWD/../PinDLL
