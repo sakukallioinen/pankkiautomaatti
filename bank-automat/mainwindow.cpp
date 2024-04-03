@@ -50,3 +50,5 @@ void MainWindow::pinHandler(QString s)
     }
 }
 
+
+
