@@ -6,7 +6,7 @@ paasivu::paasivu(QWidget *parent)
     , ui(new Ui::paasivu)
 {
     ui->setupUi(this);
-    connect(ui->logOutPushButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->logOutPushButton, SIGNAL(clicked()), this, SLOT(on_logoutPushButton_clicked()));
 }
 
 paasivu::~paasivu()
@@ -31,7 +31,7 @@ void paasivu::on_balancePushButton_clicked()
 
 void paasivu::on_logoutPushButton_clicked()
 {
-
+    this->close();
 }
 
 void paasivu::on_chooseAccountPushButton_clicked()
