@@ -37,11 +37,15 @@ void MainWindow::pinHandler(QString s)
 {
     if(s.toInt() == cardPin)
     {
+        this->hide();
+        pinInterface->close();
         //ui->label->setText("Pin correct");
         paasivu p;
         p.setModal(true);
         p.exec();
-        delete ui;
+
+        this->show();
+
 
     }
     else

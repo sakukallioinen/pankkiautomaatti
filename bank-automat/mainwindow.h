@@ -30,7 +30,7 @@ signals:
 private:
     Ui::MainWindow *ui;
     PinInterface *pinInterface;
-    int cardNumber = 258751;
+    int cardNumber = 1234;
     short cardPin = 1234;
 };
 #endif // MAINWINDOW_H
