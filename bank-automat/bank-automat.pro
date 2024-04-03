@@ -12,17 +12,23 @@ SOURCES += \
     chooseaccount.cpp \
     main.cpp \
     mainwindow.cpp \
-    paasivu.cpp
+    paasivu.cpp \
+    saldo.cpp \
+    tilinvalinta.cpp
 
 HEADERS += \
     chooseaccount.h \
     mainwindow.h \
-    paasivu.h
+    paasivu.h \
+    saldo.h \
+    tilinvalinta.h
 
 FORMS += \
     chooseaccount.ui \
     mainwindow.ui \
-    paasivu.ui
+    paasivu.ui \
+    saldo.ui \
+    tilinvalinta.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
