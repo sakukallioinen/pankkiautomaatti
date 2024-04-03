@@ -9,20 +9,35 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    chooseaccount.cpp \
     main.cpp \
     mainwindow.cpp \
+qt_1
     otto.cpp \
-    paasivu.cpp
+    paasivu.cpp \
+    saldo.cpp \
+    tilinvalinta.cpp
+qt
 
 HEADERS += \
+    chooseaccount.h \
     mainwindow.h \
+qt_1
     otto.h \
-    paasivu.h
+    paasivu.h \
+    saldo.h \
+    tilinvalinta.h
+    qt
 
 FORMS += \
+    chooseaccount.ui \
     mainwindow.ui \
+qt_1
     otto.ui \
-    paasivu.ui
+    paasivu.ui \
+    saldo.ui \
+    tilinvalinta.ui
+qt
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

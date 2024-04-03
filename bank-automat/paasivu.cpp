@@ -1,4 +1,6 @@
 #include "paasivu.h"
+#include "saldo.h"
+#include "tilinvalinta.h"
 #include "ui_paasivu.h"
 #include "otto.h"
 
@@ -7,8 +9,11 @@ paasivu::paasivu(QWidget *parent)
     , ui(new Ui::paasivu)
 {
     ui->setupUi(this);
-    connect(ui->logOutPushButton, SIGNAL(clicked()), this, SLOT(close()));
+qt_1
     connect(ui->getMoneyPushButton, SIGNAL(Clicked()), this, SLOT(close()));
+=======
+    connect(ui->logOutPushButton, SIGNAL(clicked()), this, SLOT(on_logoutPushButton_clicked()));
+qt
 }
 
 paasivu::~paasivu()
@@ -30,17 +35,21 @@ void paasivu::on_getMoneyPushButton_clicked()
 
 void paasivu::on_balancePushButton_clicked()
 {
+    Saldo *objectSaldo=new Saldo(this);
+    objectSaldo->show();
 
 }
 
+
 void paasivu::on_logoutPushButton_clicked()
 {
-
+    this->close();
 }
 
 void paasivu::on_chooseAccountPushButton_clicked()
 {
-
+    Tilinvalinta *objectTilinValinta=new Tilinvalinta(this);
+    objectTilinValinta->show();
 }
 
 void paasivu::asetaTeksti()
