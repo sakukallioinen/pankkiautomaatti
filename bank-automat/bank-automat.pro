@@ -9,7 +9,6 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    chooseaccount.cpp \
     main.cpp \
     mainwindow.cpp \
     paasivu.cpp \
@@ -17,14 +16,12 @@ SOURCES += \
     tilinvalinta.cpp
 
 HEADERS += \
-    chooseaccount.h \
     mainwindow.h \
     paasivu.h \
     saldo.h \
     tilinvalinta.h
 
 FORMS += \
-    chooseaccount.ui \
     mainwindow.ui \
     paasivu.ui \
     saldo.ui \
