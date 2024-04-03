@@ -11,14 +11,17 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    otto.cpp \
     paasivu.cpp
 
 HEADERS += \
     mainwindow.h \
+    otto.h \
     paasivu.h
 
 FORMS += \
     mainwindow.ui \
+    otto.ui \
     paasivu.ui
 
 # Default rules for deployment.

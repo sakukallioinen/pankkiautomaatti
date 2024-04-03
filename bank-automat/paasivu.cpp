@@ -1,5 +1,6 @@
 #include "paasivu.h"
 #include "ui_paasivu.h"
+#include "otto.h"
 
 paasivu::paasivu(QWidget *parent)
     : QDialog(parent)
@@ -7,6 +8,7 @@ paasivu::paasivu(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->logOutPushButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->getMoneyPushButton, SIGNAL(Clicked()), this, SLOT(close()));
 }
 
 paasivu::~paasivu()
@@ -21,6 +23,8 @@ void paasivu::on_actionsPushButton_clicked()
 
 void paasivu::on_getMoneyPushButton_clicked()
 {
+    otto *ObjectOtto= new otto(this);
+    ObjectOtto -> show();
 
 }
 
