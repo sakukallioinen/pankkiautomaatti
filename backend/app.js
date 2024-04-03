@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -25,6 +27,23 @@ app.use('/account', accountRouter);
 app.use('/transaction', transactionRouter);
 app.use('/login', loginRouter);
 
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+  
+    console.log("token = "+token);
+    if (token == null) return res.sendStatus(401)
+  
+    jwt.verify(token, process.env.MY_TOKEN, function(err, user) {
+  
+      if (err) return res.sendStatus(403)
+
+      req.user = user
+  
+      next()
+    })
+  }
 
 module.exports = app;
  
