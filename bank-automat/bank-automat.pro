@@ -11,15 +11,21 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    paasivu.cpp
+    paasivu.cpp \
+    saldo.cpp \
+    tilinvalinta.cpp
 
 HEADERS += \
     mainwindow.h \
-    paasivu.h
+    paasivu.h \
+    saldo.h \
+    tilinvalinta.h
 
 FORMS += \
     mainwindow.ui \
-    paasivu.ui
+    paasivu.ui \
+    saldo.ui \
+    tilinvalinta.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
