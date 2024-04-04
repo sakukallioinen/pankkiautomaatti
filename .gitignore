@@ -1,5 +1,5 @@
 backend/node_modules/
 bank-automat/build/
 bank-automat/*.user
-PinDLL/build/
-PinDLL/*.user
+bank-automat/PinDLL/*.user
+build-bank-automat-Desktop_Qt_6_6_3_MinGW_64_bit-Debug
