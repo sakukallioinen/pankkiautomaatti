@@ -15,7 +15,7 @@ Tilinvalinta::~Tilinvalinta()
 
 void Tilinvalinta::on_BoxTilit_activated(int index)
 {
-
+    qDebug() << "Tiliksi valittu:" << index;
 }
 
 
