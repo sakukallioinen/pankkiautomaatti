@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::Tilinvalinta *ui;
+
 };
 
 #endif // TILINVALINTA_H

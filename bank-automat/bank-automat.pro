@@ -1,5 +1,7 @@
 QT       += core gui
-QT += serialport
+QT       += serialport
+QT       +=network
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -11,32 +13,27 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-qt_1
     otto.cpp \
     paasivu.cpp \
     rfidreader.cpp \
     saldo.cpp \
     tilinvalinta.cpp
-qt
 
 HEADERS += \
     mainwindow.h \
-qt_1
     otto.h \
     paasivu.h \
     rfidreader.h \
     saldo.h \
     tilinvalinta.h
-    qt
+
 
 FORMS += \
     mainwindow.ui \
-qt_1
     otto.ui \
     paasivu.ui \
     saldo.ui \
     tilinvalinta.ui
-qt
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
