@@ -3,17 +3,18 @@
 #include "tilinvalinta.h"
 #include "ui_paasivu.h"
 #include "otto.h"
+#include "tapahtumat.h"
 
 paasivu::paasivu(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::paasivu)
 {
     ui->setupUi(this);
-qt_1
+
     connect(ui->getMoneyPushButton, SIGNAL(Clicked()), this, SLOT(close()));
-=======
+
     connect(ui->logOutPushButton, SIGNAL(clicked()), this, SLOT(on_logoutPushButton_clicked()));
-qt
+
 }
 
 paasivu::~paasivu()
@@ -21,9 +22,10 @@ paasivu::~paasivu()
     delete ui;
 }
 
-void paasivu::on_actionsPushButton_clicked()
+void paasivu::on_ActionsPushButton_clicked()
 {
-
+    tapahtumat *objectTapahtumat=new tapahtumat(this);
+    objectTapahtumat->show();
 }
 
 void paasivu::on_getMoneyPushButton_clicked()
