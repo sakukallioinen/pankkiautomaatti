@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <QtSerialPort/QSerialPort>
 #include <QMainWindow>
 #include "pininterface.h"
 #include "paasivu.h"

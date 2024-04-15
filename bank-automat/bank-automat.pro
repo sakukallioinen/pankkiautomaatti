@@ -1,5 +1,5 @@
 QT       += core gui
-
+QT += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -14,6 +14,7 @@ SOURCES += \
 qt_1
     otto.cpp \
     paasivu.cpp \
+    rfidreader.cpp \
     saldo.cpp \
     tilinvalinta.cpp
 qt
@@ -23,6 +24,7 @@ HEADERS += \
 qt_1
     otto.h \
     paasivu.h \
+    rfidreader.h \
     saldo.h \
     tilinvalinta.h
     qt
