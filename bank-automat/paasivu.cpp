@@ -2,13 +2,18 @@
 #include "saldo.h"
 #include "tilinvalinta.h"
 #include "ui_paasivu.h"
+#include "otto.h"
 
 paasivu::paasivu(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::paasivu)
 {
     ui->setupUi(this);
+qt_1
+    connect(ui->getMoneyPushButton, SIGNAL(Clicked()), this, SLOT(close()));
+=======
     connect(ui->logOutPushButton, SIGNAL(clicked()), this, SLOT(on_logoutPushButton_clicked()));
+qt
 }
 
 paasivu::~paasivu()
@@ -23,6 +28,8 @@ void paasivu::on_actionsPushButton_clicked()
 
 void paasivu::on_getMoneyPushButton_clicked()
 {
+    otto *ObjectOtto= new otto(this);
+    ObjectOtto -> show();
 
 }
 
