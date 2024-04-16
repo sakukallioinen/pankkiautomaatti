@@ -17,6 +17,7 @@ SOURCES += \
     paasivu.cpp \
     rfidreader.cpp \
     saldo.cpp \
+    tapahtumat.cpp \
     tilinvalinta.cpp
 
 HEADERS += \
@@ -25,6 +26,7 @@ HEADERS += \
     paasivu.h \
     rfidreader.h \
     saldo.h \
+    tapahtumat.h \
     tilinvalinta.h
 
 
@@ -33,6 +35,7 @@ FORMS += \
     otto.ui \
     paasivu.ui \
     saldo.ui \
+    tapahtumat.ui \
     tilinvalinta.ui
 
 # Default rules for deployment.

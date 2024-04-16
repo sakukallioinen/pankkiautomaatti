@@ -32,7 +32,7 @@ signals:
     void pinSignal();
 
 private:
-    QNetworkAccessManager *getManager;
+    QNetworkAccessManager *getBalance;
     QNetworkReply *reply;
     QByteArray response_data;
     Ui::MainWindow *ui;

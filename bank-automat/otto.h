@@ -2,6 +2,7 @@
 #define OTTO_H
 
 #include <QDialog>
+#include "paasivu.h"
 
 namespace Ui {
 class otto;
@@ -14,8 +15,11 @@ class otto : public QDialog
 public:
     explicit otto(QWidget *parent = nullptr);
     ~otto();
+    int amount;
 
 private slots:
+    void updateBalanceSlot (QNetworkReply *reply);
+    void getBalanceSlot (QNetworkReply *reply);
     void on_pushButton20_clicked();
     void on_pushButton40_clicked();
     void on_pushButton60_clicked();
@@ -24,10 +28,16 @@ private slots:
     void on_pushButton240_clicked();
     void on_pushButtonMuuSumma_clicked();
     void on_pushButtonAlkuun_clicked();
+    void updateBalance(int amount);
 
 
 private:
     Ui::otto *ui;
+    QNetworkAccessManager *putBalance;
+    QNetworkAccessManager *getBalanceManager;
+    QNetworkReply *reply;
+    QByteArray response_data;
+    QByteArray webToken;
 };
 
 #endif // OTTO_H
