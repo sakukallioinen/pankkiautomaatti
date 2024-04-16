@@ -14,7 +14,6 @@ paasivu::paasivu(QWidget *parent)
     connect(ui->getMoneyPushButton, SIGNAL(Clicked()), this, SLOT(close()));
 
 }
-
 paasivu::~paasivu()
 {
     delete ui;
@@ -32,16 +31,14 @@ void paasivu::on_getMoneyPushButton_clicked()
     ObjectOtto->show();
 }
 
-void paasivu::on_balancePushButton_clicked()
-{
-    Saldo *objectSaldo = new Saldo(this);
-    objectSaldo->show();
+
+void paasivu::on_balancePushButton_clicked(){
 
     QString site_url = "http://localhost:3000/account";
     QNetworkRequest request(site_url);
 
     //WEBTOKEN ALKU
-    QByteArray myToken = "Bearer +webToken";
+    QByteArray myToken = "Bearer" +webToken;
     request.setRawHeader(QByteArray("Authorization"), myToken);
     //WEBTOKEN LOPPU
 

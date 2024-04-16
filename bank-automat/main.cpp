@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "rfidreader.h" // Lisää tämä
+#include "rfidreader.h"
 
 #include <QApplication>
 
