@@ -31,6 +31,7 @@ void paasivu::on_getMoneyPushButton_clicked()
     ObjectOtto->show();
 }
 
+
 void paasivu::on_balancePushButton_clicked(){
 
     QString site_url = "http://localhost:3000/account";

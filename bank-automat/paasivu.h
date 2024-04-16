@@ -33,6 +33,7 @@ private:
     QByteArray response_data;
     QByteArray webToken;
 
+
     Ui::paasivu *ui;
     void asetaTeksti();
 };
