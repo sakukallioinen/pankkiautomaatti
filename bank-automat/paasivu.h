@@ -19,8 +19,9 @@ public:
     ~paasivu();
 
 private slots:
+
     void getSaldoSlot (QNetworkReply *reply);
-    void on_actionsPushButton_clicked();
+    void on_ActionsPushButton_clicked();
     void on_getMoneyPushButton_clicked();
     void on_balancePushButton_clicked();
     void on_logoutPushButton_clicked();
