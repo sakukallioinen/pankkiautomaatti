@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
     w.show();
 
     // Luo rfidreader-olio ja näytä se
-    rfidreader reader;
-    reader.show();
+    //rfidreader reader;
+    //reader.show();
 
     return a.exec();
 }
