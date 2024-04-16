@@ -18,3 +18,8 @@ void Saldo::on_btnLopeta_clicked()
 
     this->close();
 }
+
+void Saldo::updateBalance(QString balance)
+{
+    ui->label_3->setText(balance);
+}

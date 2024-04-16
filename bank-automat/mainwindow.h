@@ -5,6 +5,9 @@
 #include "pininterface.h"
 #include "paasivu.h"
 #include "otto.h"
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+#include <QJsonDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,6 +32,9 @@ signals:
     void pinSignal();
 
 private:
+    QNetworkAccessManager *getManager;
+    QNetworkReply *reply;
+    QByteArray response_data;
     Ui::MainWindow *ui;
     PinInterface *pinInterface;
     int cardNumber = 1234;

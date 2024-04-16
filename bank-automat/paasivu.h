@@ -2,6 +2,9 @@
 #define PAASIVU_H
 
 #include <QDialog>
+#include <QtNetwork>
+#include <QNetworkAccessManager>
+#include <QJsonDocument>
 
 namespace Ui {
 class paasivu;
@@ -16,6 +19,8 @@ public:
     ~paasivu();
 
 private slots:
+
+    void getSaldoSlot (QNetworkReply *reply);
     void on_ActionsPushButton_clicked();
     void on_getMoneyPushButton_clicked();
     void on_balancePushButton_clicked();
@@ -23,6 +28,10 @@ private slots:
     void on_chooseAccountPushButton_clicked();
 
 private:
+    QNetworkAccessManager *saldoManager;
+    QNetworkReply *reply;
+    QByteArray response_data;
+
     Ui::paasivu *ui;
     void asetaTeksti();
 };
