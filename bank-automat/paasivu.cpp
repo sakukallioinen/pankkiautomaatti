@@ -11,8 +11,8 @@ paasivu::paasivu(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->getMoneyPushButton, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->logOutPushButton, SIGNAL(clicked()), this, SLOT(on_logoutPushButton_clicked()));
+    connect(ui->getMoneyPushButton, SIGNAL(Clicked()), this, SLOT(close()));
+
 }
 
 paasivu::~paasivu()
