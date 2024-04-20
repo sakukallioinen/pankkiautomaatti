@@ -21,11 +21,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/login', loginRouter);
+
+app.use(authenticateToken);
+
 app.use('/customer', customerRouter);
 app.use('/card', cardRouter);
 app.use('/account', accountRouter);
 app.use('/transaction', transactionRouter);
-app.use('/login', loginRouter);
+
+app.use('/cardaccount', cardaccountRouter);
 
 
 function authenticateToken(req, res, next) {

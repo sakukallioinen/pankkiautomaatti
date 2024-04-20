@@ -9,17 +9,17 @@ const cardaccount = {
     },
     add: function(cardaccount, callback) {
       return db.query(
-        'insert into cardaccount (idcardaccount, idcard) values(?,?)',
-        [cardaccount.idcardaccount, cardaccount.idcard ],
+        'insert into cardaccount (idaccount, idcard) values(?,?)',
+        [cardaccount.idaccount, cardaccount.idcard ],
         callback
       );
     },
     delete: function(id, callback) {
-      return db.query('delete from cardaccount where idcardaccount=?', [id], callback);
+      return db.query('delete from cardaccount where idaccount=?', [id], callback);
     },
     update: function(id, cardaccount, callback) {
       return db.query(
-        'update cardaccount set idcardaccount=?,idcard=? where idcardaccount=?',
+        'update cardaccount set idaccount=?,idcard=? where idaccount=?',
         [cardaccount.idcard, id],
         callback
       );
