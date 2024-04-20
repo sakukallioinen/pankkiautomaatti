@@ -25,19 +25,19 @@ public:
 
 private slots:
     void on_pushButtonCardReader_clicked();
-    void clickHandler();
-    void pinHandler(QString);
+    void pinHandlerSlot(QString);
+    void checkCardSlot(QNetworkReply *reply);
+    void checkPinSlot(QNetworkReply *reply);
 
 signals:
     void pinSignal();
 
 private:
-    QNetworkAccessManager *getBalance;
+    QNetworkAccessManager *checkCardManager;
+    QNetworkAccessManager *checkPinManager;
     QNetworkReply *reply;
     QByteArray response_data;
     Ui::MainWindow *ui;
     PinInterface *pinInterface;
-    int cardNumber = 1234;
-    short cardPin = 1234;
 };
 #endif // MAINWINDOW_H

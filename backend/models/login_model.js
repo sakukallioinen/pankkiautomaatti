@@ -1,9 +1,21 @@
 const db = require('../database');
 
-const login={
-  checkPin: function(idcard, callback) {
-      return db.query('SELECT pin FROM card WHERE idcard = ?',[idcard], callback); 
+exports.checkCard = function(idcard, callback) {
+  db.query('SELECT * FROM card WHERE idcard = ?', [idcard], function(error, results, fields) {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, results);
     }
+  });
 };
-          
-module.exports = login;
+
+exports.checkPin = function(idcard, callback) {
+  db.query('SELECT pin FROM card WHERE idcard = ?', [idcard], function(error, results, fields) {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, results);
+    }
+  });
+};

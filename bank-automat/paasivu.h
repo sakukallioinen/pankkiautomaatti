@@ -18,13 +18,14 @@ public:
     explicit paasivu(QWidget *parent = nullptr);
     ~paasivu();
 
+
 private slots:
 
     void getSaldoSlot (QNetworkReply *reply);
     void on_ActionsPushButton_clicked();
     void on_getMoneyPushButton_clicked();
     void on_balancePushButton_clicked();
-    void on_logoutPushButton_clicked();
+    void on_logOutPushButton_clicked();
     void on_chooseAccountPushButton_clicked();
 
 private:
@@ -32,6 +33,7 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     QByteArray webToken;
+
 
 
     Ui::paasivu *ui;

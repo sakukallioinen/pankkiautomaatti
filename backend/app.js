@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const session = require('express-session');
+
 
 var express = require('express');
 var path = require('path');
@@ -21,7 +23,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: 'your secret',
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.use('/login', loginRouter);
+
 
 app.use(authenticateToken);
 
@@ -31,6 +40,7 @@ app.use('/account', accountRouter);
 app.use('/transaction', transactionRouter);
 
 app.use('/cardaccount', cardaccountRouter);
+
 
 
 function authenticateToken(req, res, next) {

@@ -19,6 +19,7 @@ paasivu::~paasivu()
     delete ui;
 }
 
+
 void paasivu::on_ActionsPushButton_clicked()
 {
     tapahtumat *objectTapahtumat = new tapahtumat(this);
@@ -48,7 +49,7 @@ void paasivu::on_balancePushButton_clicked(){
     reply = saldoManager->get(request);
 }
 
-void paasivu::on_logoutPushButton_clicked()
+void paasivu::on_logOutPushButton_clicked()
 {
     this->close();
 }
