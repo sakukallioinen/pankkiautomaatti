@@ -1,5 +1,7 @@
+#include "environment.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -7,8 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     pinInterface = new PinInterface(this);
-    connect(ui->pushButtonCardReader, SIGNAL(clicked()), this, SLOT(on_pushButtonCardReader_clicked()));
-    connect(pinInterface, SIGNAL(pinEntered(QString)), this, SLOT(pinHandler(QString)));
+    connect(pinInterface, SIGNAL(pinEntered(QString)), this, SLOT(pinHandlerSlot(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -18,41 +19,87 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButtonCardReader_clicked()
 {
-    clickHandler();
+    QString cardID=ui->lineEditCardNum->text();
+    QJsonObject jsonObj;
+    jsonObj.insert("idcard", cardID);
+
+    QString site_url=Environment::getBaseUrl()+"/login/checkcard";
+    QNetworkRequest request((site_url));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+
+    checkCardManager = new QNetworkAccessManager(this);
+    connect(checkCardManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(checkCardSlot(QNetworkReply*)));
+
+    reply = checkCardManager->post(request, QJsonDocument(jsonObj).toJson());
+
 }
 
-void MainWindow::clickHandler()
+void MainWindow::pinHandlerSlot(QString s)
 {
-    if(ui->lineEditCardNum->text().toInt() == cardNumber)
-    {
-        pinInterface->open();
-    }
-    else
-    {
-        ui->label->setText("Invalid card number");
-    }
+    QString pinCode = s;
+    QString cardID=ui->lineEditCardNum->text();
+    QJsonObject jsonObj;
+    jsonObj.insert("pin", pinCode);
+    jsonObj.insert("idcard", cardID);
+
+    QString site_url=Environment::getBaseUrl()+"/login/checkpin";
+    QNetworkRequest request((site_url));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+
+    checkPinManager = new QNetworkAccessManager(this);
+    connect(checkPinManager, SIGNAL(finished (QNetworkReply*)), this, SLOT(checkPinSlot(QNetworkReply*)));
+
+    reply = checkPinManager->post(request, QJsonDocument(jsonObj).toJson());
 }
 
-void MainWindow::pinHandler(QString s)
+void MainWindow::checkCardSlot(QNetworkReply *reply)
 {
-    if(s.toInt() == cardPin)
-    {
-        this->hide();
-        pinInterface->close();
-        //ui->label->setText("Pin correct");
-        paasivu p;
-        p.setModal(true);
-        p.exec();
-
-        this->show();
-
-
-    }
-    else
-    {
-        ui->label->setText("Pin incorrect");
-    }
+        response_data = reply->readAll();
+        qDebug() << response_data;
+        QMessageBox msgBox;
+        if(response_data == "-4078") {
+            msgBox.setText("Virhe tietokantayhteydessä");
+            msgBox.exec();
+        }
+        else{
+            if(response_data!="false"){
+                //kortti ok
+                pinInterface->open();
+            }
+            else{
+                msgBox.setText("Kortti hylätty");
+                msgBox.exec();
+            }
+        }
+        reply->deleteLater();
+        checkCardManager->deleteLater();
 }
+
+void MainWindow::checkPinSlot(QNetworkReply *reply)
+{
+        response_data = reply->readAll();
+
+        qDebug() << response_data;
+        if (response_data != "false")
+        {
+            //kirjautuminen onnistui
+            ui->label->setText("PIN hyväksytty");
+            paasivu *objectPaasivu = new paasivu(this);
+            objectPaasivu->setIdCard(ui->lineEditCardNum->text());
+            objectPaasivu->setWebToken(response_data);
+            objectPaasivu->show();
+        }
+        else
+        {
+            ui->label->setText("Invalid PIN");
+        }
+        reply->deleteLater();
+        checkPinManager->deleteLater();
+}
+
+
 
 
 

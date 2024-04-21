@@ -15,6 +15,18 @@ router.get('/',function(request, response){
     });
 });
 
+router.get('/:id',function(request, response){
+    account.getById(request.params.id,function(err,result){
+      if(err){
+        response.send(err);
+    }
+    else{
+        console.log(result);
+        response.json(result);
+    }
+    });
+});
+
 router.post('/',function(request, response){
     account.add( request.body, function(err, result){
         if(err){

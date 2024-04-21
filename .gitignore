@@ -3,3 +3,4 @@ bank-automat/build/
 bank-automat/*.user
 bank-automat/PinDLL/*.user
 build-bank-automat-Desktop_Qt_6_6_3_MinGW_64_bit-Debug
+bank-automat/PinDLL/build

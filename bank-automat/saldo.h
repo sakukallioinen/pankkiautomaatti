@@ -16,16 +16,21 @@ class Saldo : public QDialog
     Q_OBJECT
 
 public:
-
-    void updateBalance(QString balance);
     explicit Saldo(QWidget *parent = nullptr);
     ~Saldo();
+
+
+    void setCredit(const QString &newCredit);
+
+    void setBalance(const QString &newBalance);
 
 private slots:
     void on_btnLopeta_clicked();
 
 private:
     Ui::Saldo *ui;
+    QString balance;
+    QString credit;
 };
 
 #endif // SALDO_H

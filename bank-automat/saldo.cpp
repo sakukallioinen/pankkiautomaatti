@@ -19,7 +19,16 @@ void Saldo::on_btnLopeta_clicked()
     this->close();
 }
 
-void Saldo::updateBalance(QString balance)
+void Saldo::setBalance(const QString &newBalance)
 {
-    ui->label_3->setText(balance);
+    balance = newBalance;
+    ui->labelBalance->setText(balance);
 }
+
+void Saldo::setCredit(const QString &newCredit)
+{
+    credit = newCredit;
+    ui->labelCredit->setText(credit);
+}
+
+
