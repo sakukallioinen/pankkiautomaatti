@@ -15,12 +15,13 @@ router.get('/',function(request, response){
     });
 });
 
-router.get('/:idaccount',
+router.get('/:id',
     function (request, response) {
-        cardAccount.getById(request.params.idaccount, function (err, dbResult) {
+        cardAccount.getById(request.params.id, function (err, dbResult) {
             if (err) {
                 response.json(err);
             } else {
+                console.log(dbResult);
                 response.json(dbResult);
             }
         })

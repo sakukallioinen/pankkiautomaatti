@@ -65,7 +65,7 @@ void MainWindow::checkCardSlot(QNetworkReply *reply)
         }
         else{
             if(response_data!="false"){
-                //kirjautuminen onnistui
+                //kortti ok
                 pinInterface->open();
             }
             else{
@@ -73,6 +73,8 @@ void MainWindow::checkCardSlot(QNetworkReply *reply)
                 msgBox.exec();
             }
         }
+        reply->deleteLater();
+        checkCardManager->deleteLater();
 }
 
 void MainWindow::checkPinSlot(QNetworkReply *reply)
@@ -82,14 +84,19 @@ void MainWindow::checkPinSlot(QNetworkReply *reply)
         qDebug() << response_data;
         if (response_data != "false")
         {
+            //kirjautuminen onnistui
             ui->label->setText("PIN hyväksytty");
             paasivu *objectPaasivu = new paasivu(this);
+            objectPaasivu->setIdCard(ui->lineEditCardNum->text());
+            objectPaasivu->setWebToken(response_data);
             objectPaasivu->show();
         }
         else
         {
             ui->label->setText("Invalid PIN");
         }
+        reply->deleteLater();
+        checkPinManager->deleteLater();
 }
 
 

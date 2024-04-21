@@ -5,7 +5,7 @@ const cardaccount = {
       return db.query('select * from cardaccount', callback);
     },
     getById: function(id, callback) {
-      return db.query('select * from cardaccount where idAccount=? AND idCard= ?', [id], callback);
+      return db.query('select * from cardaccount where idcard= ?', [id], callback);
     },
     add: function(cardaccount, callback) {
       return db.query(
