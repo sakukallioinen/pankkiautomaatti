@@ -5,6 +5,7 @@
 #include "otto.h"
 #include "tapahtumat.h"
 #include "environment.h"
+#include "AccountManager.h"
 
 paasivu::paasivu(QWidget *parent)
     : QDialog(parent)
@@ -36,7 +37,7 @@ void paasivu::on_getMoneyPushButton_clicked()
 
 void paasivu::on_balancePushButton_clicked(){
 
-    QString site_url = Environment::getBaseUrl()+"/cardaccount/"+idCard;
+    /*QString site_url = Environment::getBaseUrl()+"/cardaccount/"+idCard;
     QNetworkRequest request(site_url);
 
     //WEBTOKEN ALKU
@@ -47,7 +48,10 @@ void paasivu::on_balancePushButton_clicked(){
     saldoManager = new QNetworkAccessManager(this);
     connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(handleAccountIdResponse(QNetworkReply*)));
 
-    reply = saldoManager->get(request);
+    reply = saldoManager->get(request);*/
+
+    requestBalance();
+    //qDebug()<<webToken;
 }
 
 void paasivu::on_logOutPushButton_clicked()
@@ -61,14 +65,16 @@ void paasivu::on_chooseAccountPushButton_clicked()
     objectTilinValinta->show();
 }
 
-void paasivu::setIdCard(const QString &newIdCard)
+void paasivu::setWebToken(const QByteArray &newWebToken)
 {
-    idCard = newIdCard;
+    webToken = newWebToken;
+    qDebug() << "WebToken: " << webToken;
 }
 
-void paasivu::requestBalance(const QString &accountIdString)
+
+void paasivu::requestBalance()
 {
-    QString site_url = Environment::getBaseUrl() + "/account/" + accountIdString;  // Oletetaan että API endpoint on /accountBalance/
+    /*QString site_url = Environment::getBaseUrl() + "/account/" + accountIdString;  // Oletetaan että API endpoint on /accountBalance/
     QNetworkRequest request(site_url);
 
     QByteArray myToken = "Bearer " + webToken;
@@ -77,10 +83,21 @@ void paasivu::requestBalance(const QString &accountIdString)
     saldoManager = new QNetworkAccessManager(this);
     connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getSaldoSlot(QNetworkReply*)));
 
+    saldoManager->get(request);*/
+    QString site_url = Environment::getBaseUrl() + "/account/" + AccountManager::getInstance().getAccountId();
+    //qDebug()<<AccountManager::getInstance().getAccountId();
+    QNetworkRequest request(site_url);
+    QByteArray myToken = "Bearer " + webToken;
+    //qDebug() << "WebToken: " << webToken;
+    request.setRawHeader("Authorization", myToken);
+
+    saldoManager = new QNetworkAccessManager(this);
+    connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getSaldoSlot(QNetworkReply*)));
+
     saldoManager->get(request);
 }
 
-void paasivu::handleAccountIdResponse(QNetworkReply *reply)
+/*void paasivu::handleAccountIdResponse(QNetworkReply *reply)
 {
     QByteArray response_data = reply->readAll();
     //qDebug()<<response_data;
@@ -90,7 +107,7 @@ void paasivu::handleAccountIdResponse(QNetworkReply *reply)
     {
         QJsonObject json_obj = json_array[0].toObject();
         int accountId = json_obj["idAccount"].toInt();
-        QString accountIdString = QString::number(accountId);
+        accountIdString = QString::number(accountId);
         //qDebug()<<"Account ID: " + accountIdString;
 
         requestBalance(accountIdString);
@@ -104,19 +121,26 @@ void paasivu::handleAccountIdResponse(QNetworkReply *reply)
 
     // Nyt kun meillä on account ID, pyydetään saldoa
    //requestBalance(accountIdString);
-}
+}*/
 
 
-void paasivu::setWebToken(const QByteArray &newWebToken)
-{
-    webToken = newWebToken;
-    qDebug()<<webToken;
-}
 
 void paasivu::asetaTeksti()
 {
     ui->label->setText("Tervetuloa");
 }
+
+/*void paasivu::fetchAccountId(const QString &webToken)
+{
+    QString site_url = Environment::getBaseUrl() + "/cardaccount/" + idCard;
+    QNetworkRequest request(site_url);
+    request.setRawHeader("Authorization", ("Bearer " + webToken).toUtf8());
+
+    accountIdManager = new QNetworkAccessManager(this);
+    connect(accountIdManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(handleAccountIdResponse(QNetworkReply*)));
+
+    accountIdManager->get(request);
+}*/
 
 void paasivu::getSaldoSlot(QNetworkReply *reply)
 {

@@ -1,3 +1,4 @@
+#include "accountmanager.h"
 #include "environment.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -57,7 +58,7 @@ void MainWindow::pinHandlerSlot(QString s)
 void MainWindow::checkCardSlot(QNetworkReply *reply)
 {
         response_data = reply->readAll();
-        qDebug() << response_data;
+        //qDebug() << response_data;
         QMessageBox msgBox;
         if(response_data == "-4078") {
             msgBox.setText("Virhe tietokantayhteydessä");
@@ -79,26 +80,77 @@ void MainWindow::checkCardSlot(QNetworkReply *reply)
 
 void MainWindow::checkPinSlot(QNetworkReply *reply)
 {
-        response_data = reply->readAll();
+    response_data = reply->readAll();
 
-        qDebug() << response_data;
-        if (response_data != "false")
-        {
-            //kirjautuminen onnistui
-            ui->label->setText("PIN hyväksytty");
-            paasivu *objectPaasivu = new paasivu(this);
-            objectPaasivu->setIdCard(ui->lineEditCardNum->text());
-            objectPaasivu->setWebToken(response_data);
-            objectPaasivu->show();
-        }
-        else
-        {
-            ui->label->setText("Invalid PIN");
-        }
-        reply->deleteLater();
-        checkPinManager->deleteLater();
+    //qDebug() << response_data;
+    if (response_data != "false")
+    {
+        // Kirjautuminen onnistui
+        ui->label->setText("PIN hyväksytty");
+
+        // Tallennetaan webToken
+        QString webToken = response_data;
+        //qDebug() << "WebToken: " << webToken;
+
+        // Hae Account ID erillisellä pyynnöllä
+        fetchAccountId(webToken);
+        paasivu *objectPaasivu = new paasivu();
+        objectPaasivu->setWebToken(response_data);
+        objectPaasivu->show();
+    }
+    else
+    {
+        ui->label->setText("Invalid PIN");
+    }
+    reply->deleteLater();
+    checkPinManager->deleteLater();
 }
 
+void MainWindow::fetchAccountId(const QString &webToken)
+{
+    QString card = ui->lineEditCardNum->text();
+    QString site_url = Environment::getBaseUrl() + "/cardaccount/"+card;  // Oletetaan että tämä on oikea endpoint
+    QNetworkRequest request(site_url);
+
+    request.setRawHeader("Authorization", ("Bearer " + webToken).toUtf8());
+
+    // Luodaan uusi QNetworkAccessManager, jos ei jo ole luotu
+    if (!accountIdManager) {
+        accountIdManager = new QNetworkAccessManager(this);
+        connect(accountIdManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(handleAccountIdResponse(QNetworkReply*)));
+    }
+
+    accountIdManager->get(request);
+}
+
+void MainWindow::handleAccountIdResponse(QNetworkReply *reply)
+{
+    QByteArray response_data = reply->readAll();
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+    QJsonObject jsonObject = json_array[0].toObject();
+
+    int accountId = jsonObject["idAccount"].toInt();
+    QString accountIdString = QString::number(accountId);
+    if (!accountIdString.isEmpty())
+    {
+        AccountManager::getInstance().setAccountId(accountIdString);
+        //qDebug() << "Account ID Retrieved: " << accountIdString;
+
+        // Siirrytään pääsivulle ja välitetään tarvittavat tiedot
+        //paasivu *objectPaasivu = new paasivu(this);
+        //objectPaasivu->setIdCard(ui->lineEditCardNum->text());
+        //objectPaasivu->setWebToken(response_data);
+        //objectPaasivu->show();
+        //qDebug()<< response_data;
+    }
+    else
+    {
+        qDebug() << "Failed to retrieve Account ID";
+        // Käsittele tilanne, jossa Account ID:tä ei saada
+    }
+    reply->deleteLater();
+}
 
 
 

@@ -5,6 +5,9 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include "accountmanager.h"
 
 namespace Ui {
 class paasivu;
@@ -19,16 +22,14 @@ public:
     ~paasivu();
 
 
+
+
+
     void setWebToken(const QByteArray &newWebToken);
-
-    //void setIdAccount(const QString &newIdAccount);
-
-    void setIdCard(const QString &newIdCard);
-
 
 private slots:
 
-    void handleAccountIdResponse(QNetworkReply *reply);
+    //void handleAccountIdResponse(QNetworkReply *reply);
     void getSaldoSlot (QNetworkReply *reply);
     void on_ActionsPushButton_clicked();
     void on_getMoneyPushButton_clicked();
@@ -36,19 +37,22 @@ private slots:
     void on_logOutPushButton_clicked();
     void on_chooseAccountPushButton_clicked();
 
-    void requestBalance(const QString &accountIdString);
 
 private:
     QNetworkAccessManager *saldoManager;
+    QNetworkAccessManager *accountIdManager;
     QNetworkReply *reply;
     QByteArray webToken;
     QByteArray response_data;
     QString idCard;
+    QString accountIdString;
 
 
 
     Ui::paasivu *ui;
     void asetaTeksti();
+    //void fetchAccountId(const QString &webToken);
+    void requestBalance();
 };
 
 #endif // PAASIVU_H

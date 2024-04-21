@@ -22,6 +22,7 @@ SOURCES += \
     tilinvalinta.cpp
 
 HEADERS += \
+    AccountManager.h \
     environment.h \
     mainwindow.h \
     otto.h \
