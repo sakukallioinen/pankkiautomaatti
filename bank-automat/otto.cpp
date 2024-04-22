@@ -1,3 +1,4 @@
+#include "environment.h"
 #include "otto.h"
 #include "ui_otto.h"
 
@@ -53,19 +54,26 @@ void otto::on_pushButtonMuuSumma_clicked()
 
 void otto::updateBalance(int amount)
 {
-    QString site_url = "http://localhost:3000/account";
+    QString site_url = Environment::getBaseUrl() + "/account/"+idAccount;
     QNetworkRequest request(site_url);
 
     //WEBTOKEN ALKU
     QByteArray myToken = "Bearer " + webToken;
-    request.setRawHeader(QByteArray("Authorization"), myToken);
+    request.setRawHeader(QByteArray("Authorization"), (myToken));
     //WEBTOKEN LOPPU
 
-    QNetworkAccessManager *getBalanceManager = new QNetworkAccessManager(this);
-    connect(getBalanceManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getBalanceSlot(QNetworkReply*)));
+    getBalanceManager = new QNetworkAccessManager(this);
+    connect(getBalanceManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
 
     reply = getBalanceManager->get(request);
     this->amount = amount;
+    //qDebug() << "Amount: " << idAccount;
+}
+
+void otto::setIdAccount(const QString &newIdAccount)
+{
+    idAccount = newIdAccount;
+    qDebug() << "idAccount: " << newIdAccount;
 }
 
 void otto::getBalanceSlot(QNetworkReply *reply)

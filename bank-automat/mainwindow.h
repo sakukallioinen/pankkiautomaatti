@@ -28,6 +28,7 @@ private slots:
     void pinHandlerSlot(QString);
     void checkCardSlot(QNetworkReply *reply);
     void checkPinSlot(QNetworkReply *reply);
+    void handleAccountIdResponse(QNetworkReply *reply);
 
 signals:
     void pinSignal();
@@ -35,9 +36,12 @@ signals:
 private:
     QNetworkAccessManager *checkCardManager;
     QNetworkAccessManager *checkPinManager;
+    QNetworkAccessManager *accountIdManager;
     QNetworkReply *reply;
     QByteArray response_data;
     Ui::MainWindow *ui;
     PinInterface *pinInterface;
+
+    void fetchAccountId(const QString &webToken);
 };
 #endif // MAINWINDOW_H

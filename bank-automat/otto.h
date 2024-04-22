@@ -17,6 +17,8 @@ public:
     ~otto();
     int amount;
 
+    void setIdAccount(const QString &newIdAccount);
+
 private slots:
     void updateBalanceSlot (QNetworkReply *reply);
     void getBalanceSlot (QNetworkReply *reply);
@@ -38,6 +40,7 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     QByteArray webToken;
+    QString idAccount;
 };
 
 #endif // OTTO_H
