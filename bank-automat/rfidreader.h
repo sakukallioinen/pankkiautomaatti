@@ -3,26 +3,26 @@
 
 #include <QMainWindow>
 #include <QtSerialPort/QSerialPort>
-
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class rfidreader;
-}
-QT_END_NAMESPACE
+#include "pininterface.h"
 
 class rfidreader : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit rfidreader(QWidget *parent = nullptr);
+    explicit rfidreader(PinInterface *pinInterface, QWidget *parent = nullptr);
     ~rfidreader();
+
+signals:
+    void cardRead(QString cardID);
 
 private slots:
     void readData();
 
 private:
     QSerialPort *serial;
+    PinInterface *pinInterface;
+
 };
 
 #endif // RFIDREADER_H

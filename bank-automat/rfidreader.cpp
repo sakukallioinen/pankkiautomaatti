@@ -1,18 +1,22 @@
 #include "rfidreader.h"
 #include <QDebug>
+#include <QString>
+#include "pininterface.h"
+#include "mainwindow.h"
 
-rfidreader::rfidreader(QWidget *parent) :
+rfidreader::rfidreader(PinInterface *pinInterface, QWidget *parent) :
     QMainWindow(parent),
-    serial(new QSerialPort(this))
+    serial(new QSerialPort(this)),
+    pinInterface(pinInterface)
 {
-    QString portName = "COM7";
+    QString portName = "COM5";
     serial->setPortName(portName);
     serial->setBaudRate(QSerialPort::Baud9600);
     if (!serial->open(QIODevice::ReadOnly)) {
-        qDebug() << "Sarjaportin avaaminen epäonnistui:" << serial->errorString();
+        qDebug() << "Failed to open serial port:" << serial->errorString();
         return;
     }
-    qDebug() << "RFID-lukija kytketty porttiin" << portName;
+    qDebug() << "RFID reader connected to port:" << portName;
 
     connect(serial, &QSerialPort::readyRead, this, &rfidreader::readData);
 }
@@ -24,5 +28,9 @@ rfidreader::~rfidreader() {
 
 void rfidreader::readData() {
     QByteArray data = serial->readAll();
-    qDebug() << "Luettu RFID-tieto:" << data;
+    QString cardID = QString(data).trimmed();
+    QRegularExpression re("[^0-9]");
+    cardID.remove(re);
+    qDebug() << "Read RFID data:" << data;
+    emit cardRead(cardID);
 }

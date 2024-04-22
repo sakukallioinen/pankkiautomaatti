@@ -15,9 +15,11 @@ class otto : public QDialog
 public:
     explicit otto(QWidget *parent = nullptr);
     ~otto();
-    int amount;
+    //int amount;
 
     void setIdAccount(const QString &newIdAccount);
+
+    void setWebToken(const QByteArray &newWebToken);
 
 private slots:
     void updateBalanceSlot (QNetworkReply *reply);
@@ -31,6 +33,7 @@ private slots:
     void on_pushButtonMuuSumma_clicked();
     void on_pushButtonAlkuun_clicked();
     void updateBalance(int amount);
+    void sendUpdatedBalance(int newBalance);
 
 
 private:
@@ -40,7 +43,8 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     QByteArray webToken;
-    QString idAccount;
+    //QString idAccount;
+    int amount;
 };
 
 #endif // OTTO_H
