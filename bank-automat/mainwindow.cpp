@@ -11,6 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     pinInterface = new PinInterface(this);
     connect(pinInterface, SIGNAL(pinEntered(QString)), this, SLOT(pinHandlerSlot(QString)));
+
+    rfidReader = new rfidreader(pinInterface, this);
+    connect(rfidReader, &rfidreader::cardRead, this, &MainWindow::handleCardRead);
 }
 
 MainWindow::~MainWindow()
@@ -150,6 +153,11 @@ void MainWindow::handleAccountIdResponse(QNetworkReply *reply)
         // Käsittele tilanne, jossa Account ID:tä ei saada
     }
     reply->deleteLater();
+}
+
+void MainWindow::handleCardRead(QString cardID)
+{
+    ui->lineEditCardNum->setText(cardID);
 }
 
 

@@ -8,6 +8,7 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
+#include "rfidreader.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -29,6 +30,7 @@ private slots:
     void checkCardSlot(QNetworkReply *reply);
     void checkPinSlot(QNetworkReply *reply);
     void handleAccountIdResponse(QNetworkReply *reply);
+    void handleCardRead(QString cardID);
 
 signals:
     void pinSignal();
@@ -41,6 +43,7 @@ private:
     QByteArray response_data;
     Ui::MainWindow *ui;
     PinInterface *pinInterface;
+    rfidreader *rfidReader;
 
     void fetchAccountId(const QString &webToken);
 };

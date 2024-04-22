@@ -31,6 +31,7 @@ void paasivu::on_ActionsPushButton_clicked()
 void paasivu::on_getMoneyPushButton_clicked()
 {
     otto *ObjectOtto = new otto(this);
+    ObjectOtto->setWebToken(webToken);
     ObjectOtto->show();
 }
 
