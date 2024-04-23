@@ -117,11 +117,10 @@ void MainWindow::fetchAccountId(const QString &webToken)
 
     request.setRawHeader("Authorization", ("Bearer " + webToken).toUtf8());
 
-    // Luodaan uusi QNetworkAccessManager, jos ei jo ole luotu
-    if (!accountIdManager) {
-        accountIdManager = new QNetworkAccessManager(this);
-        connect(accountIdManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(handleAccountIdResponse(QNetworkReply*)));
-    }
+
+    accountIdManager = new QNetworkAccessManager(this);
+    connect(accountIdManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(handleAccountIdResponse(QNetworkReply*)));
+
 
     accountIdManager->get(request);
 }
@@ -153,6 +152,7 @@ void MainWindow::handleAccountIdResponse(QNetworkReply *reply)
         // Käsittele tilanne, jossa Account ID:tä ei saada
     }
     reply->deleteLater();
+    accountIdManager->deleteLater();
 }
 
 void MainWindow::handleCardRead(QString cardID)
