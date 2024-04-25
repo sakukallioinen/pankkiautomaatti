@@ -14,6 +14,7 @@ var transactionRouter = require('./routes/transaction');
 var loginRouter = require('./routes/login');
 var cardaccountRouter = require('./routes/cardaccount');
 var customeraccountRouter = require('./routes/customeraccount');
+const debitWithdrawalRouter = require('./routes/debitwithdrawal');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use('/login', loginRouter);
 
 app.use(authenticateToken);
 
+app.use('/debitWithdrawal', debitWithdrawalRouter);
 app.use('/customer', customerRouter);
 app.use('/card', cardRouter);
 app.use('/account', accountRouter);
