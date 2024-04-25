@@ -48,7 +48,6 @@ void otto::on_pushButton240_clicked()
 
 void otto::on_pushButtonMuuSumma_clicked()
 {
-    // Tässä voit antaa käyttäjän syöttää haluamansa summan ja lähettää sen tietokantaan
     int muuSumma = 0; // Esimerkki, käytä oikeaa arvoa
     updateBalance(muuSumma);
 }
@@ -62,11 +61,11 @@ void otto::updateBalance(int amount)
         return;
     }
 
-    // Tee kutsu tietokantaproseduuriin debit_withdrawal
+    //kutsu tietokantaproseduuriin debit_withdrawal
     QString site_url = Environment::getBaseUrl() + "/debitwithdrawal";
     QNetworkRequest request(site_url);
 
-    // Aseta Web Token headeriin
+    //Web Token
     QByteArray myToken = "Bearer " + webToken;
     request.setRawHeader(QByteArray("Authorization"), myToken);
 
@@ -115,12 +114,6 @@ void otto::setWebToken(const QByteArray &newWebToken)
     webToken = newWebToken;
 }
 
-/*void otto::setIdAccount(const QString &newIdAccount)
-{
-    idAccount = newIdAccount;
-    qDebug() << "idAccount: " << newIdAccount;
-}
-*/
 void otto::getBalanceSlot(QNetworkReply *reply)
 {
     response_data = reply->readAll();
@@ -134,23 +127,6 @@ void otto::getBalanceSlot(QNetworkReply *reply)
     sendUpdatedBalance(newBalance);
 
     getBalanceManager->deleteLater();
-    /*QJsonObject jsonObj;
-    jsonObj.insert("balance", newBalance);
-
-    QString site_url = "http://localhost:3000/account/1";
-    QNetworkRequest request(site_url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    //WEBTOKEN ALKU
-    QByteArray myToken = "Bearer " + webToken;
-    request.setRawHeader(QByteArray("Authorization"), myToken);
-    //WEBTOKEN LOPPU
-
-    putBalance = new QNetworkAccessManager(this);
-    connect(putBalance, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
-
-    reply = putBalance->put(request, QJsonDocument(jsonObj).toJson());
-    this->close();*/
 }
 
 void otto::updateBalanceSlot(QNetworkReply *reply)

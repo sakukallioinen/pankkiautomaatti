@@ -17,4 +17,3 @@ void tapahtumat::on_backBtn_clicked()
 {
     this->close();
 }
-
