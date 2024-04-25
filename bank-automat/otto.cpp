@@ -55,21 +55,37 @@ void otto::on_pushButtonMuuSumma_clicked()
 
 void otto::updateBalance(int amount)
 {
-    QString site_url = Environment::getBaseUrl() + "/account/"+AccountManager::getInstance().getAccountId();
+    // Ennen kuin kutsut tietokantaproseduuria, sinun täytyy varmistaa, että sinulla on ensimmäisen tilin tunniste saatavilla
+    QString accountId = AccountManager::getInstance().getAccountId();
+    if (accountId.isEmpty()) {
+        qDebug() << "Error: Account ID is empty";
+        return;
+    }
+
+    // Tee kutsu tietokantaproseduuriin debit_withdrawal
+    QString site_url = Environment::getBaseUrl() + "/debitwithdrawal";
     QNetworkRequest request(site_url);
 
-    //WEBTOKEN ALKU
+    // Aseta Web Token headeriin
     QByteArray myToken = "Bearer " + webToken;
-    request.setRawHeader(QByteArray("Authorization"), (myToken));
-    //WEBTOKEN LOPPU
+    request.setRawHeader(QByteArray("Authorization"), myToken);
 
-    getBalanceManager = new QNetworkAccessManager(this);
-    connect(getBalanceManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getBalanceSlot(QNetworkReply*)));
+    // Aseta otsikko sisällön tyypille
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    getBalanceManager->get(request);
-    this->amount = amount;
-    //qDebug() << "Amount: " << idAccount;
+    // Luo QNetworkAccessManager instanssi tai käytä olemassaolevaa, jos se on jo luotu
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
+
+    // Luo JSON
+    QJsonObject jsonObj;
+    jsonObj.insert("idaccount", accountId);
+    jsonObj.insert("amount", amount);
+
+    // Lähetä pyyntö POST-metodilla
+    manager->post(request, QJsonDocument(jsonObj).toJson());
 }
+
 
 void otto::sendUpdatedBalance(int newBalance)
 {
@@ -86,8 +102,7 @@ void otto::sendUpdatedBalance(int newBalance)
     request.setRawHeader(QByteArray("Authorization"), myToken);
 
     // Luo QNetworkAccessManager instanssi tai käytä olemassaolevaa, jos se on jo luotu
-    if (!putBalance)
-        putBalance = new QNetworkAccessManager(this);
+    putBalance = new QNetworkAccessManager(this);
 
     connect(putBalance, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
 
@@ -118,6 +133,7 @@ void otto::getBalanceSlot(QNetworkReply *reply)
 
     sendUpdatedBalance(newBalance);
 
+    getBalanceManager->deleteLater();
     /*QJsonObject jsonObj;
     jsonObj.insert("balance", newBalance);
 

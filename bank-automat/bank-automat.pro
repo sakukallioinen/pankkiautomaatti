@@ -47,9 +47,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-
-
-win32: LIBS += -L$$PWD/PinDLL/build/build/debug/ -lPinDLL
+win32: LIBS += -L$$PWD/PinDLL/build/debug/ -lPinDLL
 
 INCLUDEPATH += $$PWD/PinDLL
 DEPENDPATH += $$PWD/PinDLL

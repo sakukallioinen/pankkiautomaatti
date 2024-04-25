@@ -38,19 +38,6 @@ void paasivu::on_getMoneyPushButton_clicked()
 
 void paasivu::on_balancePushButton_clicked(){
 
-    /*QString site_url = Environment::getBaseUrl()+"/cardaccount/"+idCard;
-    QNetworkRequest request(site_url);
-
-    //WEBTOKEN ALKU
-    QByteArray myToken = "Bearer "+webToken;
-    request.setRawHeader(QByteArray("Authorization"), (myToken));
-    //WEBTOKEN LOPPU
-
-    saldoManager = new QNetworkAccessManager(this);
-    connect(saldoManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(handleAccountIdResponse(QNetworkReply*)));
-
-    reply = saldoManager->get(request);*/
-
     requestBalance();
     //qDebug()<<webToken;
 }
