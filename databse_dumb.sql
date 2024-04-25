@@ -29,7 +29,7 @@ CREATE TABLE `account` (
   `balance` decimal(10,2) DEFAULT NULL,
   `creditLimit` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`idAccount`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` VALUES (1,7.22,1000.00),(2,109.00,1000.00),(3,272.00,0.00);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,6 +63,7 @@ CREATE TABLE `card` (
 
 LOCK TABLES `card` WRITE;
 /*!40000 ALTER TABLE `card` DISABLE KEYS */;
+INSERT INTO `card` VALUES ('0600062016','$2b$10$sXgq6xUiKUQijNqoWLJKL.rMlKhT.seAFZ.bgSJ335MBqe8aKFqQK','DEBIT'),('060006233','$2b$10$1MH9iAZDKnlLlFx2qmZNSOL6ytxcHw75ZWNZ00YqPqya8lHxgrKJG','CREDIT'),('0600064971','$2b$10$GWDZMizcoQK5Z0i1EjoIV.1jxR4zgsnho9d2bgoB6fwo5rJT0gGEC','BOTH'),('n-0600064971','$2b$10$DaHWFS8W6dySnW3awm63muam7Qqkt3eCbpGu0Njk4D.t4Kq4Z35VK','DEBIT'),('testi','$2b$10$q8ZrOPSISLCOGQr8/bRs5uAdtHL9qDRh9q4N/gY69EBdg2W4AYXN2',NULL),('testi2','$2b$10$BzXaik7NQsGUBAOpJ5jo6edkfLzpfCXm4RM2EfOoqxAfBaSvpdESu','CREDIT');
 /*!40000 ALTER TABLE `card` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,6 +90,7 @@ CREATE TABLE `cardaccount` (
 
 LOCK TABLES `cardaccount` WRITE;
 /*!40000 ALTER TABLE `cardaccount` DISABLE KEYS */;
+INSERT INTO `cardaccount` VALUES (3,'0600062016'),(2,'060006233'),(1,'0600064971');
 /*!40000 ALTER TABLE `cardaccount` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,7 +160,7 @@ CREATE TABLE `transaction` (
   PRIMARY KEY (`idtransaction`),
   KEY `transaccount_idx` (`idAccount`),
   CONSTRAINT `transaccount` FOREIGN KEY (`idAccount`) REFERENCES `account` (`idAccount`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,8 +169,41 @@ CREATE TABLE `transaction` (
 
 LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
+INSERT INTO `transaction` VALUES (1,NULL,'2024-04-02 00:00:00','1',500),(2,1,'2024-04-25 16:37:31','withdrawal',100),(3,2,'2024-04-25 16:37:43','withdrawal',100),(4,3,'2024-04-25 16:37:57','withdrawal',100),(5,3,'2024-04-25 17:07:46','withdrawal',20),(6,3,'2024-04-25 17:13:48','withdrawal',20),(7,1,'2024-04-25 17:25:44','withdrawal',25),(8,3,'2024-04-25 17:35:08','withdrawal',20),(9,2,'2024-04-25 17:37:14','withdrawal',25),(10,2,'2024-04-25 17:47:14','withdrawal',25),(11,2,'2024-04-25 17:58:16','withdrawal',25),(12,2,'2024-04-25 18:05:50','withdrawal',60),(13,2,'2024-04-25 18:06:54','withdrawal',60),(14,2,'2024-04-25 18:08:31','withdrawal',40),(15,2,'2024-04-25 18:09:57','withdrawal',40),(16,2,'2024-04-25 18:10:09','withdrawal',40),(17,2,'2024-04-25 18:10:14','withdrawal',40);
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'bankautomat'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `debit_withdrawal` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `debit_withdrawal`(IN first_id INT, IN amount DOUBLE )
+BEGIN
+  DECLARE test1 INT DEFAULT 0;
+  START TRANSACTION;
+  UPDATE account SET balance = balance - amount WHERE idaccount = first_id AND balance >= amount;
+  SET test1 = ROW_COUNT();
+    IF (test1 > 0) THEN   
+      COMMIT;    
+      INSERT INTO transaction(idaccount, withdraw, amount, date) VALUES(first_id, 'withdrawal', amount, NOW());
+    ELSE
+      ROLLBACK;
+  END IF;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -178,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-27 15:31:00
+-- Dump completed on 2024-04-25 18:41:51
