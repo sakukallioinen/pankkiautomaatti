@@ -12,7 +12,7 @@ router.get('/',function(request, response){
         response.json(result)
     }
     });
-})
+});
 
 router.post('/',function(request, response){
     customer.add( request.body, function(err, result){

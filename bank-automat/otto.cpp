@@ -1,7 +1,10 @@
 #include "environment.h"
 #include "otto.h"
+#include "muusumma.h"
 #include "ui_otto.h"
 #include "AccountManager.h"
+#include <QInputDialog>
+#include <QMessageBox>
 
 otto::otto(QWidget *parent) :
     QDialog(parent),
@@ -48,8 +51,9 @@ void otto::on_pushButton240_clicked()
 
 void otto::on_pushButtonMuuSumma_clicked()
 {
-    int muuSumma = 0; // Esimerkki, käytä oikeaa arvoa
-    updateBalance(muuSumma);
+    MuuSumma *objectMuuSumma = new MuuSumma(this);
+    connect(objectMuuSumma, SIGNAL(pinEntered(int)), this, SLOT(updateBalance(int)));
+    objectMuuSumma->show();
 }
 
 void otto::updateBalance(int amount)
@@ -73,7 +77,7 @@ void otto::updateBalance(int amount)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     // Luo QNetworkAccessManager instanssi tai käytä olemassaolevaa, jos se on jo luotu
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
 
     // Luo JSON
@@ -86,55 +90,18 @@ void otto::updateBalance(int amount)
 }
 
 
-void otto::sendUpdatedBalance(int newBalance)
-{
-    QJsonObject jsonObj;
-    jsonObj.insert("balance", newBalance);
-
-    // Muodosta URL päivitetyn saldon lähettämiseksi palvelimelle
-    QString site_url = Environment::getBaseUrl() + "/account/" + AccountManager::getInstance().getAccountId();
-    QNetworkRequest request(site_url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    // Aseta Web Token headeriin
-    QByteArray myToken = "Bearer " + webToken;
-    request.setRawHeader(QByteArray("Authorization"), myToken);
-
-    // Luo QNetworkAccessManager instanssi tai käytä olemassaolevaa, jos se on jo luotu
-    putBalance = new QNetworkAccessManager(this);
-
-    connect(putBalance, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
-
-    // Lähetä päivitetty saldo palvelimelle
-    putBalance->put(request, QJsonDocument(jsonObj).toJson());
-}
-
 void otto::setWebToken(const QByteArray &newWebToken)
 {
     webToken = newWebToken;
 }
 
-void otto::getBalanceSlot(QNetworkReply *reply)
-{
-    response_data = reply->readAll();
-    reply->deleteLater();
-
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonObject json_obj = json_doc.object();
-    int currentBalance = json_obj["balance"].toInt();
-    int newBalance = currentBalance - this ->amount;
-
-    sendUpdatedBalance(newBalance);
-
-    getBalanceManager->deleteLater();
-}
 
 void otto::updateBalanceSlot(QNetworkReply *reply)
 {
     response_data = reply->readAll();
     qDebug() << "Update Balance Response: " << response_data;
     reply->deleteLater();
-    putBalance->deleteLater();
+    manager->deleteLater();
 }
 
 void otto::on_pushButtonAlkuun_clicked()

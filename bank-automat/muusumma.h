@@ -1,7 +1,6 @@
 #ifndef MUUSUMMA_H
 #define MUUSUMMA_H
 #include <QDialog>
-#include "ui_muusumma.h"
 
 namespace Ui {
 class MuuSumma;
@@ -40,7 +39,7 @@ private slots:
     void enterClicked();
 
 signals:
-    void pinEntered(QString);
+    void pinEntered(int);
 
 private:
     Ui::MuuSumma *ui;
@@ -49,4 +48,3 @@ private:
 };
 
 #endif // MUUSUMMA_H
-

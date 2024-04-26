@@ -18,9 +18,11 @@ public:
         accountId = id;
     }
 
+
     QString getAccountId() const {
         return accountId;
     }
+
 
 private:
     QString accountId; // Sisäinen muuttuja tilin ID:lle

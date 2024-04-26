@@ -21,11 +21,9 @@ public:
     explicit paasivu(QWidget *parent = nullptr);
     ~paasivu();
 
-
-
-
-
     void setWebToken(const QByteArray &newWebToken);
+
+
 
 private slots:
 
