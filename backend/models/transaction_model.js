@@ -5,7 +5,7 @@ const transaction = {
       return db.query('select * from transaction', callback);
     },
     getById: function(id, callback) {
-      return db.query('select * from transaction where idtransaction=?', [id], callback);
+      return db.query('select * from transaction where idaccount=?', [id], callback);
     },
     add: function(transaction, callback) {
       return db.query(

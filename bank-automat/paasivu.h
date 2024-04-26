@@ -34,6 +34,7 @@ private slots:
     void on_balancePushButton_clicked();
     void on_logOutPushButton_clicked();
     void on_chooseAccountPushButton_clicked();
+    void getTransactionsSlot(QNetworkReply *reply);
 
 
 private:
@@ -44,6 +45,7 @@ private:
     QByteArray response_data;
     QString idCard;
     QString accountIdString;
+    QNetworkAccessManager *transactionManager;
 
 
 
@@ -51,6 +53,7 @@ private:
     void asetaTeksti();
     //void fetchAccountId(const QString &webToken);
     void requestBalance();
+    void requestTransactions();
 };
 
 #endif // PAASIVU_H
