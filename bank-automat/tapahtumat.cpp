@@ -17,3 +17,9 @@ void tapahtumat::on_backBtn_clicked()
 {
     this->close();
 }
+
+void tapahtumat::setTapahtumatString(const QString &newTapahtumatString)
+{
+    tapahtumatString = newTapahtumatString;
+    ui->textEdit->setText(tapahtumatString);
+}
