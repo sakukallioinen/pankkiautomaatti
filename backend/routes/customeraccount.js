@@ -14,3 +14,17 @@ router.get('/',function(request, response){
     }
     });
 });
+
+router.post('/',function(request, response){
+    customeraccount.add(request.body, function(err, result){
+        if(err){
+            response.send(err);
+        } else {
+            response.json(result);
+        }
+    })
+});
+
+
+
+module.exports = router;

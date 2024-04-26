@@ -19,7 +19,8 @@ SOURCES += \
     rfidreader.cpp \
     saldo.cpp \
     tapahtumat.cpp \
-    tilinvalinta.cpp
+    tilinvalinta.cpp \
+    muusumma.cpp
 
 HEADERS += \
     AccountManager.h \
@@ -30,7 +31,8 @@ HEADERS += \
     rfidreader.h \
     saldo.h \
     tapahtumat.h \
-    tilinvalinta.h
+    tilinvalinta.h \
+    muusumma.h
 
 
 FORMS += \
@@ -39,7 +41,8 @@ FORMS += \
     paasivu.ui \
     saldo.ui \
     tapahtumat.ui \
-    tilinvalinta.ui
+    tilinvalinta.ui \
+    muusumma.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -47,7 +50,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 
-win32: LIBS += -L$$PWD/PinDLL/build/debug/ -lPinDLL
+
+win32: LIBS += -L$$PWD/PinDLL/build/build/debug/ -lPinDLL
 
 INCLUDEPATH += $$PWD/PinDLL
 DEPENDPATH += $$PWD/PinDLL

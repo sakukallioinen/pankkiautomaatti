@@ -1,6 +1,8 @@
 #include "muusumma.h"
-#include "Qpushbutton.h"
+#include "qpushbutton.h"
 #include "ui_muusumma.h"
+
+#include <QMessageBox>
 
 MuuSumma::MuuSumma(QWidget *parent)
     :QDialog(parent),
@@ -82,14 +84,22 @@ void MuuSumma::numberClicked()
 
     // Remove the first character from the object name
     pin = pin + name.last(1);
+    ui->PinLineEdit->setText(pin);
+
 }
 
 void MuuSumma::enterClicked()
 {
-    //qDebug()<<"klikki";
-    //QString s = ui->PinLineEdit->text();
-    emit pinEntered(pin);
-    pin.clear();
-    ui->PinLineEdit->clear();
-    this->close();
+    int newSum = pin.toInt();
+    if(newSum % 10 != 0) {
+        QMessageBox::critical(this, tr("Virhe"), tr("Voit nostaa vain tasasummia"));
+        pin.clear();
+        ui->PinLineEdit->clear();
+        return;
+    } else {
+        emit pinEntered(pin.toInt());
+        pin.clear();
+        ui->PinLineEdit->clear();
+        this->close();
+    }
 }

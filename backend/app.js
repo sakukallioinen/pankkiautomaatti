@@ -33,7 +33,7 @@ app.use(session({
 app.use('/login', loginRouter);
 
 
-app.use(authenticateToken);
+//app.use(authenticateToken);
 
 app.use('/debitWithdrawal', debitWithdrawalRouter);
 app.use('/customer', customerRouter);
@@ -42,7 +42,7 @@ app.use('/account', accountRouter);
 app.use('/transaction', transactionRouter);
 
 app.use('/cardaccount', cardaccountRouter);
-
+app.use('/customeraccount', customeraccountRouter);
 
 
 function authenticateToken(req, res, next) {

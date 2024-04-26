@@ -22,13 +22,32 @@ void Saldo::on_btnLopeta_clicked()
 void Saldo::setBalance(const QString &newBalance)
 {
     balance = newBalance;
-    ui->labelBalance->setText(balance);
+    if (credit == "")
+    {
+        ui->labelCredit->hide();
+        ui->labelLuotto->hide();
+        ui->labelTilinSaldo->setText("Tilin saldo:");
+        ui->labelBalance->setText(balance);
+    }
+    else {
+        ui->labelCredit->setText(credit);
+    }
 }
+
 
 void Saldo::setCredit(const QString &newCredit)
 {
     credit = newCredit;
-    ui->labelCredit->setText(credit);
+    if (balance == "")
+    {
+        ui->labelCredit->hide();
+        ui->labelLuotto->hide();
+        ui->labelBalance->setText(credit);
+        ui->labelTilinSaldo->setText("Luottoa nostettavissa:");
+    }
+    else {
+        ui->labelBalance->setText(balance);
+    }
 }
 
 

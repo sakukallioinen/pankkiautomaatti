@@ -100,6 +100,7 @@ void MainWindow::checkPinSlot(QNetworkReply *reply)
         paasivu *objectPaasivu = new paasivu();
         objectPaasivu->setWebToken(response_data);
         objectPaasivu->show();
+        this->close();
     }
     else
     {
@@ -137,14 +138,7 @@ void MainWindow::handleAccountIdResponse(QNetworkReply *reply)
     if (!accountIdString.isEmpty())
     {
         AccountManager::getInstance().setAccountId(accountIdString);
-        //qDebug() << "Account ID Retrieved: " << accountIdString;
 
-        // Siirrytään pääsivulle ja välitetään tarvittavat tiedot
-        //paasivu *objectPaasivu = new paasivu(this);
-        //objectPaasivu->setIdCard(ui->lineEditCardNum->text());
-        //objectPaasivu->setWebToken(response_data);
-        //objectPaasivu->show();
-        //qDebug()<< response_data;
     }
     else
     {
