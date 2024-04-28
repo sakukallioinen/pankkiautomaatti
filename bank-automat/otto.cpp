@@ -58,34 +58,27 @@ void otto::on_pushButtonMuuSumma_clicked()
 
 void otto::updateBalance(int amount)
 {
-    // Ennen kuin kutsut tietokantaproseduuria, sinun täytyy varmistaa, että sinulla on ensimmäisen tilin tunniste saatavilla
     QString accountId = AccountManager::getInstance().getAccountId();
     if (accountId.isEmpty()) {
         qDebug() << "Error: Account ID is empty";
         return;
     }
 
-    //kutsu tietokantaproseduuriin debit_withdrawal
     QString site_url = Environment::getBaseUrl() + "/debitwithdrawal";
     QNetworkRequest request(site_url);
 
-    //Web Token
     QByteArray myToken = "Bearer " + webToken;
     request.setRawHeader(QByteArray("Authorization"), myToken);
 
-    // Aseta otsikko sisällön tyypille
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    // Luo QNetworkAccessManager instanssi tai käytä olemassaolevaa, jos se on jo luotu
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
 
-    // Luo JSON
     QJsonObject jsonObj;
     jsonObj.insert("idaccount", accountId);
     jsonObj.insert("amount", amount);
 
-    // Lähetä pyyntö POST-metodilla
     manager->post(request, QJsonDocument(jsonObj).toJson());
 }
 

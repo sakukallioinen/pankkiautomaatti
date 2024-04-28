@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->lineEditCardNum->setFocus();
     pinInterface = new PinInterface(this);
     connect(pinInterface, SIGNAL(pinEntered(QString)), this, SLOT(pinHandlerSlot(QString)));
 
