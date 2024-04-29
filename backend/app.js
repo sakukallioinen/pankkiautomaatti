@@ -33,7 +33,7 @@ app.use(session({
 app.use('/login', loginRouter);
 
 
-//app.use(authenticateToken);
+app.use(authenticateToken);
 
 app.use('/debitWithdrawal', debitWithdrawalRouter);
 app.use('/customer', customerRouter);
